@@ -9,54 +9,47 @@ local cellManager = {
     Cells = {}
 }
 
-local board :Folder = game.Workspace:FindFirstChild("Board")
-local cellFolder :Folder = board:FindFirstChild("Cells")
+local self = cellManager
 
-
+local board: Folder = game.Workspace:FindFirstChild("Board")
+local cellFolder: Folder = board:FindFirstChild("Cells")
 
 local positions = {}
 
-function cellManager.generateBoard()
-    local settings = cellManager.settings
-    for r=1,settings.rows,1 do 
-        local RowPosition = Vector3.new(settings.startPos.X + settings.cellSize.X * r, settings.startPos.Y, settings.startPos.Z)
-        table.insert(positions, RowPosition)
-        for c=1,settings.cellsPerRow,1 do
-            local CellPosition = Vector3.new(RowPosition.X, RowPosition.Y, RowPosition.Z + settings.cellSize.Z * c)
-            table.insert(positions, CellPosition)
+function cellManager:renderPositions()
+    for r=1,self.settings.rows,1 do
+        for c=1,self.settings.cellsPerRow,1 do
+            table.insert(positions, {
+                x = r - 1,
+                y = c - 1,
+                vector = Vector3.new(self.settings.startPos.X + self.settings.cellSize.X * r,
+                self.settings.startPos.Y,
+                self.settings.startPos.Z + self.settings.cellSize.Z * c)
+        })
         end
     end
+
     return positions
 end
 
 function cellManager:renderNilCells()
-	for __, pos: Vector3 in positions do
-        local Cell = Instance.new("Part")
-        Cell.Anchored = true
-        Cell.Size = cellManager.settings.cellSize
-        Cell.Position = pos
-		Cell.Parent = cellFolder
-		table.insert(cellManager.Cells, {position = Cell.Position, part = Cell, cellType = "notAssigned"})
+    for __,pos in positions do
+        local cellPart = Instance.new("Part")
+        cellPart.Anchored = true
+        cellPart.Size = self.settings.cellSize
+        cellPart.Position = pos.vector
+        cellPart.Parent = cellFolder
+        table.insert(self.Cells, {x = pos.x, y = pos.y, cell = cellPart})
     end
 end
 
-function cellManager:getCell(pos: Vector3)
-	for __,cell in cellManager.Cells do
-		if cell.position == pos then
-			return cell
-		else
-			return nil
-		end
-	end
-end
-
-function cellManager:getAdjacentCells(pos: Vector3)
-    local cell = cellManager:getCell(pos)
-    local calculations = {
-        Vector3.new(cell.position.X, cell.position.Y, cell.position.Z)
-    }
-    for __,calc in calculations do
-        print(calc)
+function cellManager:getCell(x,y)
+    for __,cell in self.Cells do
+        if cell.x == x and cell.y == y then
+            return cell
+        else
+            return nil
+        end
     end
 end
 
