@@ -1,0 +1,49 @@
+{
+  "name": "rblx-minesweeper",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "$path": "./src/ReplicatedStorage"
+    },
+
+    "ServerScriptService": {
+      "$path": "./src/ServerScriptService"
+    },
+
+    "ReplicatedFirst": {
+      "$path": "./src/ReplicatedFirst"
+    },
+
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      },
+
+      "Board": {
+        "$className": "Folder",
+        "Cells": {
+          "$className": "Folder"
+        }
+      }
+    },
+    "Lighting": {
+      "$properties": {
+        "Ambient": [
+          0,
+          0,
+          0
+        ],
+        "Brightness": 2,
+        "GlobalShadows": true,
+        "Outlines": false,
+        "Technology": "Voxel"
+      }
+    },
+    "SoundService": {
+      "$properties": {
+        "RespectFilteringEnabled": true
+      }
+    }
+  }
+}
