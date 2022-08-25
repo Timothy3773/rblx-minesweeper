@@ -4,4 +4,6 @@ test:renderPositions()
 
 test:renderNilCells()
 
-print(test:getCell(0,0))
+local cell = test:getCell(2,2)
+
+print("Cell", cell, "Adjacent Cells", test:getAdjacentCells(cell.x, cell.y))

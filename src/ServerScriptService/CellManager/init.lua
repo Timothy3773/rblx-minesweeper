@@ -38,6 +38,8 @@ function cellManager:renderNilCells()
         cellPart.Anchored = true
         cellPart.Size = self.settings.cellSize
         cellPart.Position = pos.vector
+        cellPart:SetAttribute("x", pos.x)
+        cellPart:SetAttribute("y", pos.y)
         cellPart.Parent = cellFolder
         table.insert(self.Cells, {x = pos.x, y = pos.y, cell = cellPart})
     end
@@ -47,10 +49,32 @@ function cellManager:getCell(x,y)
     for __,cell in self.Cells do
         if cell.x == x and cell.y == y then
             return cell
-        else
-            return nil
         end
     end
+    return nil
+end
+
+function cellManager:getAdjacentCells(x,y)
+    local result = {}
+    local cell = self:getCell(x,y)
+    local cx = cell.x
+    local cy = cell.y
+    local calculations = {
+        {x = cx + 1, y = cy}, 
+        {x = cx - 1, y = cy},
+        {x = cx + 1, y = cy + 1},
+        {x = cx - 1, y = cy - 1},
+        {x = cx + 1, y = cy - 1},
+        {x = cx - 1, y = cy + 1},
+        {x = cx, y = cy + 1},
+        {x = cx, y = cy - 1}
+    }
+    for __, calc in calculations do
+        if self:getCell(calc.x, calc.y) ~= nil then
+            table.insert(result, self:getCell(calc.x, calc.y))
+        end
+    end
+    return result
 end
 
 return cellManager
