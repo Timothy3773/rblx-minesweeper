@@ -18,13 +18,6 @@
     "Workspace": {
       "$properties": {
         "FilteringEnabled": true
-      },
-
-      "Board": {
-        "$className": "Folder",
-        "Cells": {
-          "$className": "Folder"
-        }
       }
     },
     "Lighting": {
